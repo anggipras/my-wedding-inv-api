@@ -8,7 +8,7 @@ module.exports = (sequelize, Sequelize) => {
       wishes: {
         type: Sequelize.STRING,
       },
-      attendace: {
+      attendance: {
         type: Sequelize.BOOLEAN,
       },
       createdAt: {
