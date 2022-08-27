@@ -1,6 +1,6 @@
+const moment = require("moment");
 const db = require("../models");
 const WeddingWish = db.weddingwish;
-const Op = db.Sequelize.Op;
 
 // Create and Save a new WeddingWish
 exports.create = (req, res) => {
@@ -16,6 +16,7 @@ exports.create = (req, res) => {
     person_name: req.body.person_name,
     wishes: req.body.wishes,
     attendace: req.body.attendace ? req.body.attendace : true,
+    createdAt: moment().format(),
   };
   // Save WeddingWish in the database
   WeddingWish.create(weddingobj)
@@ -31,10 +32,8 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all WeddingWishes from the database.
-exports.findAll = (req, res) => {
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.iLike]: `%${title}%` } } : null;
-  WeddingWish.findAll({ where: condition })
+exports.findAll = (_, res) => {
+  WeddingWish.findAll()
     .then((data) => {
       res.send(data);
     })

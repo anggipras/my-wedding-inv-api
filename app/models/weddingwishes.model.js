@@ -1,14 +1,23 @@
 module.exports = (sequelize, Sequelize) => {
-  const Weddingwishes = sequelize.define("weddingwishes", {
-    person_name: {
-      type: Sequelize.STRING,
+  const Weddingwishes = sequelize.define(
+    "weddingwishes",
+    {
+      person_name: {
+        type: Sequelize.STRING,
+      },
+      wishes: {
+        type: Sequelize.STRING,
+      },
+      attendace: {
+        type: Sequelize.BOOLEAN,
+      },
+      createdAt: {
+        type: Sequelize.STRING,
+      },
     },
-    wishes: {
-      type: Sequelize.STRING,
-    },
-    attendace: {
-      type: Sequelize.BOOLEAN,
-    },
-  });
+    {
+      timestamps: false,
+    }
+  );
   return Weddingwishes;
 };
