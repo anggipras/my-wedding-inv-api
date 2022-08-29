@@ -3,11 +3,14 @@ module.exports = (app) => {
 
   var router = require("express").Router()
 
-  // Create a new Tutorial
+  // Create a new weddingwish
   router.post("/", weddingwish.create);
 
   // Retrieve all weddingwish
   router.get("/", weddingwish.findAll);
+
+  // Delete all weddingwish
+  router.delete("/", weddingwish.deleteAll);
   
   app.use("/api/weddingwish", router);
 };

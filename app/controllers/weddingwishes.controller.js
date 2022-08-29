@@ -44,3 +44,20 @@ exports.findAll = (_, res) => {
       });
     });
 };
+
+exports.deleteAll = (_, res) => {
+  WeddingWish.destroy({
+    where: {},
+    truncate: true,
+    restartIdentity: true
+  })
+    .then((data) => {
+      res.send({ message: `${data} Wedding Wishes were deleted successfully!` });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving weddingwishes.",
+      });
+    });
+};
