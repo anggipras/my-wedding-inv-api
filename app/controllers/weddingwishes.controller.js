@@ -1,5 +1,6 @@
 const moment = require("moment");
 const db = require("../models");
+const { getPagingData } = require("../utils/func");
 const WeddingWish = db.weddingwish;
 
 // Create and Save a new WeddingWish
@@ -32,10 +33,20 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all WeddingWishes from the database.
-exports.findAll = (_, res) => {
-  WeddingWish.findAll()
+exports.findAll = (req, res) => {
+  const options = {
+    limit: 5,
+    page: req.query.page ? req.query.page : 1,
+  };
+
+  WeddingWish.findAndCountAll({
+    limit: options.limit,
+    offset: options.page * options.limit - options.limit,
+    where: {},
+  })
     .then((data) => {
-      res.send(data);
+      const response = getPagingData(data, options.page, options.limit);
+      res.send(response);
     })
     .catch((err) => {
       res.status(500).send({
@@ -49,10 +60,12 @@ exports.deleteAll = (_, res) => {
   WeddingWish.destroy({
     where: {},
     truncate: true,
-    restartIdentity: true
+    restartIdentity: true,
   })
     .then((data) => {
-      res.send({ message: `${data} Wedding Wishes were deleted successfully!` });
+      res.send({
+        message: `${data} Wedding Wishes were deleted successfully!`,
+      });
     })
     .catch((err) => {
       res.status(500).send({
