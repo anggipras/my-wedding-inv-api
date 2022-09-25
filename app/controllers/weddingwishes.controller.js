@@ -16,7 +16,7 @@ exports.create = (req, res) => {
   const weddingobj = {
     person_name: req.body.person_name,
     wishes: req.body.wishes,
-    attendance: req.body.attendance ? req.body.attendance : true,
+    attendance: req.body.attendance !== null ? req.body.attendance : true,
     createdAt: moment().format(),
   };
   // Save WeddingWish in the database
