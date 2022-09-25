@@ -43,6 +43,7 @@ exports.findAll = (req, res) => {
     limit: options.limit,
     offset: options.page * options.limit - options.limit,
     where: {},
+    order: [["id", "DESC"]],
   })
     .then((data) => {
       const response = getPagingData(data, options.page, options.limit);
