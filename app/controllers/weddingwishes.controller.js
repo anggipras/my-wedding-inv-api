@@ -2,6 +2,8 @@ const moment = require("moment");
 const db = require("../models");
 const { getPagingData } = require("../utils/func");
 const WeddingWish = db.weddingwish;
+const nodefetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 // Create and Save a new WeddingWish
 exports.create = (req, res) => {
@@ -22,7 +24,31 @@ exports.create = (req, res) => {
   // Save WeddingWish in the database
   WeddingWish.create(weddingobj)
     .then((data) => {
-      res.send(data);
+      // https://anggi-golda-wedding-api.herokuapp.com
+      const bodyPushNotif = {
+        to: "cHcvInoZS-W1qpp01ZSZ00:APA91bH0enRqOJhK4vD1_NuyTA-gnzLuMS3fDG0VlZOG-rTFeYmW4RCSyzcv2cSZMTaz_AQ55aBA49ph30d-ROzNCNR_tYLq7-3YZXvCjnVSNNqlLZfkd_5F6pCQgi4rLNilJXwMsErY",
+        notification: {
+          body: data.wishes,
+          title: data.person_name,
+        },
+      };
+
+      nodefetch("https://fcm.googleapis.com/fcm/send", {
+        method: "post",
+        body: JSON.stringify(bodyPushNotif),
+        headers: {
+          Authorization: `key=${process.env.FCMTOKEN}`,
+          "Content-Type": "application/json",
+        },
+      })
+        .then(() => {
+          console.log("berhasil");
+          res.send(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.send(data);
+        });
     })
     .catch((err) => {
       res.status(500).send({
