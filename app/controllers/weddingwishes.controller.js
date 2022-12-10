@@ -24,7 +24,6 @@ exports.create = (req, res) => {
   // Save WeddingWish in the database
   WeddingWish.create(weddingobj)
     .then((data) => {
-      // https://anggi-golda-wedding-api.herokuapp.com
       const bodyPushNotif = {
         to: "cHcvInoZS-W1qpp01ZSZ00:APA91bH0enRqOJhK4vD1_NuyTA-gnzLuMS3fDG0VlZOG-rTFeYmW4RCSyzcv2cSZMTaz_AQ55aBA49ph30d-ROzNCNR_tYLq7-3YZXvCjnVSNNqlLZfkd_5F6pCQgi4rLNilJXwMsErY",
         notification: {
